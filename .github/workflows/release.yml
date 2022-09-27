@@ -19,6 +19,7 @@ jobs:
           fetch-depth: 0
           submodules: true
           token: ${{ secrets.SUBMODULE_REPO_DEPLOY_KEY }}
+          ssh-key: ${{ secrets.SUBMODULE_REPO_DEPLOY_SSH_KEY }}
       - name: Clone Submodule
         run: |
           mkdir -p $HOME/.ssh
