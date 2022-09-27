@@ -20,23 +20,31 @@ jobs:
 #          submodules: true
 #          token: ${{ secrets.SUBMODULE_REPO_DEPLOY_KEY }}
 #          ssh-key: ${{ secrets.SUBMODULE_REPO_DEPLOY_SSH_KEY }}
+#      - name: Clone Submodule
+#        run: |
+#          mkdir -p $HOME/.ssh
+#          echo '${{ secrets.SUBMODULE_REPO_DEPLOY_KEY }}' > $HOME/.ssh/ssh.key
+#          chmod 600 $HOME/.ssh/ssh.key
+#          export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/ssh.key"
+#          git submodule update --init
+#          git submodule foreach --recursive git reset --hard
+#          git submodule set-url ./traccar-web git@github.com:cortip/traccar-web.git
+#          git submodule update --init --recursive
+#          git submodule set-url ./traccar-web https://github.com/cortip/traccar-web.git
+#          unset GIT_SSH_COMMAND
+#      - run: |
+#          git submodule update --init
+#          git submodule foreach --recursive git reset --hard
+#      - run: git checkout ${{ github.ref_name }}
+#        working-directory: ./traccar-web
       - name: Clone Submodule
         run: |
           mkdir -p $HOME/.ssh
           echo '${{ secrets.SUBMODULE_REPO_DEPLOY_KEY }}' > $HOME/.ssh/ssh.key
           chmod 600 $HOME/.ssh/ssh.key
           export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/ssh.key"
-          git submodule update --init
-          git submodule foreach --recursive git reset --hard
-          git submodule set-url ./traccar-web git@github.com:cortip/traccar-web.git
-          git submodule update --init --recursive
-          git submodule set-url ./traccar-web https://github.com/cortip/traccar-web.git
+          git clone git@github.com:cortip/traccar-web.git
           unset GIT_SSH_COMMAND
-#      - run: |
-#          git submodule update --init
-#          git submodule foreach --recursive git reset --hard
-#      - run: git checkout ${{ github.ref_name }}
-#        working-directory: ./traccar-web
       - uses: actions/setup-java@v3
         with:
           distribution: temurin
